@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   AutoIncrement,
   Column,
@@ -13,12 +14,14 @@ import {
 
 @Table({ tableName: 'tags' })
 export class TagsModel extends Model {
+  @ApiProperty({ example: 4, description: 'уникальный id' })
   @PrimaryKey
   @AutoIncrement
   @Unique
   @Column({ type: DataType.INTEGER, allowNull: false })
   id: number;
 
+  @ApiProperty({ example: 'Цветы', description: 'tag of flowers' })
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
