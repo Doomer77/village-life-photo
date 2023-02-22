@@ -1,0 +1,10 @@
+.header {
+  grid-column: full-start / full-end;
+  background-image: linear-gradient(
+      rgba($color-white, 0.8),
+      rgba($color-gray, 0.8)
+    ),
+    url('@/assets/images/photo-121.jpg');
+  background-position: center;
+  background-size: cover;
+}
