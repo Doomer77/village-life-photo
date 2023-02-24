@@ -1,15 +1,11 @@
-if (!process.env.IS_TS_NODE) {
-  require('module-alias/register');
-}
-
 import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
-import { AppModule } from './app.module';
-
-const PORT = process.env.PORT || 5000;
 
 async function bootstrap() {
+  const PORT = process.env.PORT || 5000;
+
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
@@ -21,6 +17,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/api/docs', app, document);
 
-  await app.listen(PORT, () => console.log('Server running on port ' + PORT));
+  await app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 }
 bootstrap();

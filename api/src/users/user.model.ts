@@ -8,22 +8,25 @@ import {
   Model,
   PrimaryKey,
   Table,
-  Unique,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { TagCreateDto } from './dto/tag.create.dto';
+import { UserCreateDto } from './dto/user.create.dto';
 
-@Table({ tableName: 'tags' })
-export class TagModel extends Model<TagModel, TagCreateDto> {
+@Table({ tableName: 'users' })
+export class UserModel extends Model<UserModel, UserCreateDto> {
   @ApiProperty({ example: 4, description: 'уникальный id' })
   @PrimaryKey
   @AutoIncrement
   @Column({ type: DataType.INTEGER, allowNull: false, unique: true })
   id: number;
 
-  @ApiProperty({ example: 'Цветы', description: 'tag of flowers' })
+  @ApiProperty({ example: 'exemple@mail.com', description: 'email of users' })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  email: string;
+
+  @ApiProperty({ example: 'exemple12345', description: 'password of users' })
   @Column({ type: DataType.STRING, allowNull: false })
-  name: string;
+  password: string;
 
   @CreatedAt
   creationDate: Date;
