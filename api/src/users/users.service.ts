@@ -1,48 +1,29 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { UserCreateDto } from './dto/user.create.dto';
-import { UpdateUserDto } from './dto/user.update.dto';
-import { UserModel } from './user.model';
+import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/sequelize'
+import { RolesService } from 'src/roles/roles.service'
+import { UserCreateDto } from './dto/user.create.dto'
+import { UserModel } from './user.model'
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(UserModel) private usersRepository: typeof UserModel,
+    @InjectModel(UserModel) private userRepository: typeof UserModel,
+    private rolesService: RolesService,
   ) {}
-
-  async createUser(createUseruDto: UserCreateDto): Promise<UserModel> {
-    const user = await this.usersRepository.create(createUseruDto);
-    return user;
-  }
-
-  async deleteUser(id: number): Promise<number> {
-    const user = await this.usersRepository.destroy({ where: { id } });
-    return user;
-  }
-
-  async updateUser(
-    id: number,
-    data: UpdateUserDto,
-  ): Promise<[number, UserModel[]]> {
-    const user = await this.usersRepository.update(data, {
-      where: { id },
-      returning: true,
-    });
-
-    if (!user) {
-      throw new BadRequestException('User not found');
-    }
-
-    return user;
-  }
-
-  async getOneUser(id: number): Promise<UserModel> {
-    const users = await this.usersRepository.findOne({ where: { id } });
-    return users;
+  async createUser(userCreateDto: UserCreateDto): Promise<UserModel> {
+    const user = await this.userRepository.create(userCreateDto)
+    const role = await this.rolesService.getRoleByValue('user')
+    await user.$set('roles', [role.id])
+    return user
   }
 
   async getAllUsers(): Promise<UserModel[]> {
-    const users = await this.usersRepository.findAll();
-    return users;
+    const users = await this.userRepository.findAll({ include: { all: true } })
+    return users
+  }
+
+  async getOneUser(id: number): Promise<UserModel> {
+    const users = await this.userRepository.findOne({ where: { id } })
+    return users
   }
 }
