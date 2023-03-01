@@ -1,23 +1,25 @@
-import { ApiProperty } from '@nestjs/swagger'
 import {
-  AutoIncrement,
-  Column,
-  DataType,
-  Model,
-  PrimaryKey,
   Table,
+  Model,
+  Column,
+  AutoIncrement,
+  PrimaryKey,
+  AllowNull,
 } from 'sequelize-typescript'
-import { TagCreateDto } from './dto/tag.create.dto'
+import { ApiProperty } from '@nestjs/swagger'
+import { DataTypes } from 'sequelize'
 
 @Table({ tableName: 'tags' })
-export class TagModel extends Model<TagModel, TagCreateDto> {
-  @ApiProperty({ example: 4, description: 'Уникальный id' })
-  @PrimaryKey
+export class TagModel extends Model<TagModel> {
+  @ApiProperty({ example: '1', description: 'Уникальный идентификатор тега' })
   @AutoIncrement
-  @Column({ type: DataType.INTEGER, allowNull: false, unique: true })
+  @PrimaryKey
+  @AllowNull(false)
+  @Column({ type: DataTypes.INTEGER, unique: true })
   id: number
 
-  @ApiProperty({ example: 'Цветы', description: 'Tag of flowers' })
-  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  @ApiProperty({ example: 'Коты', description: 'Описание значения тега' })
+  @AllowNull(false)
+  @Column({ type: DataTypes.STRING, unique: true })
   name: string
 }
