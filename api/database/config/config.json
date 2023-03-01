@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "doomer77",
+    "password": "newzibkoff77",
+    "database": "village_life_photo",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "doomer77",
+    "password": "newzibkoff77",
+    "database": "village_life_photo",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "doomer77",
+    "password": "newzibkoff77",
+    "database": "village_life_photo",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}

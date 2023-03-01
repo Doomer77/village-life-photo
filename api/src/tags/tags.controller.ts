@@ -1,31 +1,39 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { TagCreateDto } from './dto/tag.create.dto'
-import { TagsService } from './tags.service'
 import { TagModel } from './tag.model'
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger/dist'
+import { TagsService } from './tags.service'
 
-@ApiTags('tags')
+@ApiTags('Теги')
 @Controller('tags')
 export class TagsController {
   constructor(private tagsService: TagsService) {}
-  @ApiOperation({ summary: 'create tag' })
+
+  @ApiOperation({ summary: 'Метод создания тега' })
   @ApiResponse({ status: 200, type: TagModel })
   @Post()
-  async createTag(@Body() tagCreateDto: TagCreateDto): Promise<TagModel> {
-    return await this.tagsService.createTag(tagCreateDto)
+  createTag(@Body() tagCreateDto: TagCreateDto): Promise<TagModel> {
+    return this.tagsService.createTag(tagCreateDto)
   }
 
-  @ApiOperation({ summary: 'get one tag' })
+  @ApiOperation({ summary: 'Метод получения тега' })
   @ApiResponse({ status: 200, type: TagModel })
   @Get(':id')
-  async getTagOne(@Param('id') id: number): Promise<TagModel> {
-    return await this.tagsService.getTagOne(id)
+  getOneTag(@Param('id') id: number): Promise<TagModel> {
+    return this.tagsService.getOneTag(id)
   }
 
-  @ApiOperation({ summary: 'get all tags' })
-  @ApiResponse({ status: 200, type: [TagModel] })
+  @ApiOperation({ summary: 'Метод получения тегов' })
+  @ApiResponse({ status: 200, type: TagModel })
   @Get()
   async getAllTags(): Promise<TagModel[]> {
-    return await this.tagsService.getAll()
+    return await this.tagsService.getAllTags()
+  }
+
+  @ApiOperation({ summary: 'Метод удаления тега' })
+  @ApiResponse({ status: 200, type: TagModel })
+  @Delete(':id')
+  removeTag(@Param('id') id: number): Promise<number> {
+    return this.tagsService.removeTag(id)
   }
 }

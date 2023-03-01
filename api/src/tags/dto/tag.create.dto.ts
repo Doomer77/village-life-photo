@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { IsEmail, IsString, Length } from 'class-validator'
 
 export class TagCreateDto {
-  @ApiProperty({ example: 'Name of tags', description: 'Наименование тега' })
-  name: string
+  @ApiProperty({ example: 'Коты', description: 'Тег Коты' })
+  @IsString({ message: 'Должно быть строкой' })
+  readonly name: string
 }
